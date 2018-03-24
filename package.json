@@ -1,16 +1,42 @@
 {
-  "name": "employee_table_app",
-  "version": "0.1.0",
-  "private": true,
+  "name": "cantorreactapp",
+  "version": "1.0.0",
+  "description": "CantorReactApp",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playerony/CantorReactApp.git"
+  },
+  "author": "Paweł Wojtasiński",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/playerony/CantorReactApp/issues"
+  },
+  "homepage": "https://github.com/playerony/CantorReactApp#readme",
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-es2018": "^1.0.0",
+    "babel-preset-react": "^6.24.1",
+    "cross-fetch": "^1.1.1",
+    "graceful-fs": "^4.1.11",
+    "isomorphic-fetch": "^2.2.1",
+    "jsonwebtoken": "^8.1.1",
+    "jwt-decode": "^2.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "next",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
   }
 }
