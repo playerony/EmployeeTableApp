@@ -5,6 +5,7 @@ import {
 } from '../constants/employees.constants'
 
 import * as employeeService from '../services/employee.service'
+import { initPagination } from './pagination.action';
 
 function requestEmployees() {
     return {
@@ -31,6 +32,7 @@ export function fetchEmployees() {
         employeeService.fetchEmployees()
             .then(json => {
                 dispatch(receiveEmployees(json))
+                dispatch(initPagination(json, 5))
             })
             .catch(function(error) {
                 dispatch(failureEmployees(error))

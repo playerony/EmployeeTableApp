@@ -5,7 +5,8 @@ import EmployeeRow from './EmployeeRow.jsx'
 
 class EmployeeTable extends Component {
     render() {
-        let employees = this.props.employees.map(employee => 
+        let pagination = this.props.pagination
+        let employees = pagination.pages[pagination.pageNumber - 1].map(employee => 
             <EmployeeRow key = {employee.id}
                          employee = {employee} />
         )
@@ -30,7 +31,7 @@ class EmployeeTable extends Component {
 }
 
 EmployeeTable.propTypes = {
-    employees: PropTypes.array.isRequired
+    pagination: PropTypes.object.isRequired
 }
 
 export default EmployeeTable
