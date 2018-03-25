@@ -6,7 +6,7 @@ import EmployeeRow from './EmployeeRow.jsx'
 class EmployeeTable extends Component {
     render() {
         let pagination = this.props.pagination
-        let employees = pagination.pages[pagination.pageNumber - 1].map(employee => 
+        let employees = pagination.currentPage.map(employee => 
             <EmployeeRow key = {employee.id}
                          employee = {employee} />
         )

@@ -21,15 +21,15 @@ class EmployeePanel extends Component {
     }
 
     handleNextPageClick() {
-        const { dispatch, pagination } = this.props
+        const { dispatch } = this.props
 
-        dispatch(nextPage(pagination.pageNumber))
+        dispatch(nextPage())
     }
 
     handlePreviousPageClick() {
-        const { dispatch, pagination } = this.props
+        const { dispatch } = this.props
 
-        dispatch(prevPage(pagination.pageNumber))
+        dispatch(prevPage())
     }
 
     render() {

@@ -4,17 +4,15 @@ import {
     INIT_PAGINATION
 } from '../constants/pagination.constants.js'
 
-export function nextPage(pageNumber) {
+export function nextPage() {
     return {
-        type: NEXT_PAGE,
-        pageNumber
+        type: NEXT_PAGE
     }
 }
 
-export function prevPage(pageNumber) {
+export function prevPage() {
     return {
-        type: PREV_PAGE,
-        pageNumber
+        type: PREV_PAGE
     }
 }
 

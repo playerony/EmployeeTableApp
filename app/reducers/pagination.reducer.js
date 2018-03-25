@@ -28,21 +28,32 @@ export function pagination(
 ) {
     switch (action.type) {
         case INIT_PAGINATION:
+            let pages = getPages(action.data, action.pageSize)
+            let pageNumber = 1
             return Object.assign({}, state, {
                 pageSize: action.pageSize,
-                pageNumber: 1,
-                pages: this.getPages(action.data, action.pageSize)
+                pageNumber: pageNumber,
+                pages: pages,
+                currentPage: pages[pageNumber - 1]
             })
-        case NEXT_PAGE:
-            if(action.pageNumber < state.pages.length)
+        case NEXT_PAGE: {
+            let pageNumber = state.pageNumber + 1
+            if(pageNumber - 1 < state.pages.length) {
                 return Object.assign({}, state, {
-                    pageNumber: action.pageNumber + 1
+                    pageNumber: pageNumber,
+                    currentPage: state.pages[pageNumber - 1]
                 })
-        case PREV_PAGE:
-            if(action.pageNumber > 1)
+            }
+        }
+        case PREV_PAGE: {
+            let pageNumber = state.pageNumber - 1
+            if(pageNumber > 0) {
                 return Object.assign({}, state, {
-                    pageNumber: action.pageNumber - 1
+                    pageNumber: pageNumber,
+                    currentPage: state.pages[pageNumber - 1]
                 })
+            }
+        }
         default:
             return state
     }
