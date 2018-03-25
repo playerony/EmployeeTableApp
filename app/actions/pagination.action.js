@@ -1,7 +1,8 @@
 import {
     NEXT_PAGE,
     PREV_PAGE,
-    INIT_PAGINATION
+    INIT_PAGINATION,
+    SORT
 } from '../constants/pagination.constants.js'
 
 export function nextPage() {
@@ -21,5 +22,12 @@ export function initPagination(data, pageSize) {
         type: INIT_PAGINATION,
         data,
         pageSize
+    }
+}
+
+export function sort(column) {
+    return {
+        type: SORT,
+        column
     }
 }

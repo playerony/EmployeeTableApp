@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { fetchEmployees } from '../actions/employees.action'
-import { nextPage, prevPage } from '../actions/pagination.action'
+import { nextPage, prevPage, sort } from '../actions/pagination.action'
 import EmployeeTable from '../components/EmployeeTable.jsx'
 
 class EmployeePanel extends Component {
@@ -12,6 +12,7 @@ class EmployeePanel extends Component {
 
         this.handleNextPageClick = this.handleNextPageClick.bind(this)
         this.handlePreviousPageClick = this.handlePreviousPageClick.bind(this)
+        this.handleSortPageByColumnClick = this.handleSortPageByColumnClick.bind(this)
     }
 
     componentDidMount() {
@@ -32,6 +33,12 @@ class EmployeePanel extends Component {
         dispatch(prevPage())
     }
 
+    handleSortPageByColumnClick(column) {
+        const { dispatch } = this.props
+
+        dispatch(sort(column))
+    }
+
     render() {
         const { isFetching, isError, payload, error, pagination } = this.props
 
@@ -48,7 +55,8 @@ class EmployeePanel extends Component {
                 {!isError && pagination.pages != undefined && pagination.pages.length > 0 && 
                     <div>
                         <div>
-                            <EmployeeTable pagination = {pagination} />
+                            <EmployeeTable onClick={this.handleSortPageByColumnClick} 
+                                           pagination={pagination} />
                         </div>
 
                         <div>

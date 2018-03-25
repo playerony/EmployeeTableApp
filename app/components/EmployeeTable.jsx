@@ -5,7 +5,8 @@ import EmployeeRow from './EmployeeRow.jsx'
 
 class EmployeeTable extends Component {
     render() {
-        let pagination = this.props.pagination
+        const { pagination, onClick } = this.props
+
         let employees = pagination.currentPage.map(employee => 
             <EmployeeRow key = {employee.id}
                          employee = {employee} />
@@ -15,11 +16,11 @@ class EmployeeTable extends Component {
             <table>
                 <thead>
                     <tr>
-                        <th>firstName</th>
-                        <th>lastName</th>
-                        <th>dateOfBirth</th>
-                        <th>company</th>
-                        <th>note</th>
+                        <th onClick={e => onClick('firstName')}>firstName</th>
+                        <th onClick={e => onClick('lastName')}>lastName</th>
+                        <th onClick={e => onClick('dateOfBirth')}>dateOfBirth</th>
+                        <th onClick={e => onClick('company')}>company</th>
+                        <th onClick={e => onClick('note')}>note</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +32,8 @@ class EmployeeTable extends Component {
 }
 
 EmployeeTable.propTypes = {
-    pagination: PropTypes.object.isRequired
+    pagination: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired
 }
 
 export default EmployeeTable
