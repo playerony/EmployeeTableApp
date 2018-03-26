@@ -3,3 +3,11 @@ export const PREV_PAGE = 'PREV_PAGE'
 export const INIT_PAGINATION = 'INIT_PAGINATION'
 
 export const SORT = 'SORT'
+
+export const FIRSTNAME_FILTER = 'FIRSTNAME_FILTER'
+export const LASTNAME_FILTER = 'LASTNAME_FILTER'
+export const DATEOFBIRTH_FILTER = 'DATEOFBIRTH_FILTER'
+export const COMPANY_FILTER = 'COMPANY_FILTER'
+export const NOTE_FILTER = 'NOTE_FILTER'
+export const RESET_FILTERS = 'RESET_FILTERS'
+export const FILTER = 'FILTER'

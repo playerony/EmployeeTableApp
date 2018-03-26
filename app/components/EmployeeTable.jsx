@@ -7,13 +7,15 @@ class EmployeeTable extends Component {
     render() {
         const { pagination, onClick } = this.props
 
+        console.log(pagination)
+
         let employees = pagination.currentPage.map(employee => 
             <EmployeeRow key = {employee.id}
                          employee = {employee} />
         )
 
         return (
-            <table>
+            <table className="table table-bordered">
                 <thead>
                     <tr>
                         <th onClick={e => onClick('firstName')}>firstName</th>

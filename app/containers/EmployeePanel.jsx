@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { fetchEmployees } from '../actions/employees.action'
-import { nextPage, prevPage, sort } from '../actions/pagination.action'
+import { nextPage, prevPage, sort, filter } from '../actions/pagination.action'
 import EmployeeTable from '../components/EmployeeTable.jsx'
+import FilterMenu from '../containers/FilterMenu.jsx'
 
 class EmployeePanel extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class EmployeePanel extends Component {
     }
 
     componentDidMount() {
-        const { dispatch } = this.props
+        const { dispatch, pagination } = this.props
 
         dispatch(fetchEmployees())
     }
@@ -45,26 +46,34 @@ class EmployeePanel extends Component {
         return (
             <div>
                 {isError && 
-                    <div>
+                    <div className="alert alert-danger">
                         <strong>Error!</strong> {error.message}.
                     </div>}
 
                 {!isError && isFetching && payload.length === 0 && <h2>Loading...</h2>}
                 {!isError && !isFetching && payload.length === 0 && <h2>There are no records to show.</h2>}
 
-                {!isError && pagination.pages != undefined && pagination.pages.length > 0 && 
+                {!isError && pagination.pages !== undefined && pagination.pages.length > 0 && 
                     <div>
                         <div>
                             <EmployeeTable onClick={this.handleSortPageByColumnClick} 
                                            pagination={pagination} />
                         </div>
 
-                        <div>
-                            <button onClick={this.handlePreviousPageClick}>Previous</button>
-                            <button onClick={this.handleNextPageClick}>Next</button>
+                        <div className="col-12 col-md-6 text-center">
+                            <form>
+                                <button className="btn btn-success" onClick={this.handlePreviousPageClick}>Previous page</button>
+                            </form>
+                        </div>
+                        <div className="col-12 col-md-6 text-center">
+                            <form>
+                                <button className="btn btn-success" onClick={this.handleNextPageClick}>Next page</button>
+                            </form>
                         </div>
                     </div>
                 }
+
+                <FilterMenu />
             </div>
         )
     }

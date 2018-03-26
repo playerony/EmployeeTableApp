@@ -1,67 +1,28 @@
 import {
+    INIT_PAGINATION,
     NEXT_PAGE,
     PREV_PAGE,
-    INIT_PAGINATION,
-    SORT
+    SORT,
+    FIRSTNAME_FILTER,
+    LASTNAME_FILTER,
+    DATEOFBIRTH_FILTER,
+    COMPANY_FILTER,
+    NOTE_FILTER,
+    RESET_FILTERS,
+    FILTER
 } from '../constants/pagination.constants.js'
-
-function getPages(data, pageSize) {
-    let pages = []
-    let elements = []
-
-    for(let i=1 ; i<=data.length ; i++) {
-        elements.push(data[i-1])
-        if(i % pageSize == 0) {
-            pages.push(elements)
-            elements = []
-        }
-    }
-    pages.push(elements)
-
-    return pages
-}
-
-function sortPage(currentPage, column, option) {
-    currentPage.sort(function(a, b) {
-        let firstObject = a[column]
-        let secondObject = b[column]
-
-        if(!isNaN(stringToDate(firstObject).getDate()) && !isNaN(stringToDate(secondObject).getDate())) {
-            firstObject = stringToDate(firstObject)
-            secondObject = stringToDate(secondObject)
-        }
-            
-        return compareObjects(firstObject, secondObject, option)
-    })
-
-    return currentPage
-}
-
-function stringToDate(date) {
-    return new Date(date.replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"));
-}
-
-function compareObjects(firstObject, secondObject, option) {
-    if(option == 1) {
-        if(firstObject > secondObject) return -1;
-        if(firstObject < secondObject) return 1;
-    } else if(option == 2) {
-        if(firstObject < secondObject) return -1;
-        if(firstObject > secondObject) return 1;
-    }
-
-    return 0;
-}
+import * as PaginationUtil from '../utils/PaginationUtil'
 
 export function pagination(
     state = {
-
+        filters: [],
+        isFiltering: false,
     },
     action
 ) {
     switch (action.type) {
-        case INIT_PAGINATION:
-            let pages = getPages(action.data, action.pageSize)
+        case INIT_PAGINATION: {
+            let pages = PaginationUtil.divideListIntoPages(action.data, action.pageSize)
             let pageNumber = 1
             return Object.assign({}, state, {
                 pageSize: action.pageSize,
@@ -70,6 +31,7 @@ export function pagination(
                 sortCounter: 0,
                 currentPage: pages[pageNumber - 1]
             })
+        }
         case NEXT_PAGE: {
             let pageNumber = state.pageNumber + 1
             if(pageNumber - 1 < state.pages.length) {
@@ -89,19 +51,78 @@ export function pagination(
             }
         }
         case SORT: {
-            let isSorted = true
             let sortCounter = state.sortCounter + 1
             let pageNumber = state.pageNumber
             if(sortCounter >= 3)
                 sortCounter = 0
 
-            if(sortCounter == 0)
-                isSorted = false
+            let currentPage
+            if(state.isFiltering)
+                currentPage = PaginationUtil.sortPage(state.pages[pageNumber - 1].slice(), action.column, sortCounter)
+            else
+                currentPage = PaginationUtil.sortPage(state.currentPage, action.column, sortCounter)
 
             return Object.assign({}, state, {
-                isSorted: isSorted,
                 sortCounter: sortCounter,
-                currentPage: sortPage(state.pages[pageNumber - 1].slice(), action.column, sortCounter),
+                sortColumn: action.column,
+                currentPage: currentPage
+            })
+        }
+        case FIRSTNAME_FILTER: {
+            return Object.assign({}, state, {
+                filters: Object.assign({}, state.filters, {
+                    firstName: Object.assign({}, state.filters.firstName, {
+                        value: action.value 
+                    })
+                })
+            })
+        }
+        case LASTNAME_FILTER: {
+            return Object.assign({}, state, {
+                filters: Object.assign({}, state.filters, {
+                    lastName: Object.assign({}, state.filters.lastName, {
+                        value: action.value 
+                    })
+                })
+            })
+        }
+        case DATEOFBIRTH_FILTER: {
+            return Object.assign({}, state, {
+                filters: Object.assign({}, state.filters, {
+                    dateOfBirth: Object.assign({}, state.filters.dateOfBirth, {
+                        value: action.value 
+                    })
+                })
+            })
+        }
+        case COMPANY_FILTER: {
+            return Object.assign({}, state, {
+                filters: Object.assign({}, state.filters, {
+                    company: Object.assign({}, state.filters.company, {
+                        value: action.value 
+                    })
+                })
+            })
+        }
+        case NOTE_FILTER: {
+            return Object.assign({}, state, {
+                filters: Object.assign({}, state.filters, {
+                    note: Object.assign({}, state.filters.note, {
+                        value: action.value 
+                    })
+                })
+            })
+        }
+        case RESET_FILTERS: 
+            return Object.assign({}, state, {
+                isFiltering: false,
+                filters: [],
+                currentPage: state.pages[state.pageNumber - 1].slice()
+            })
+        case FILTER: {
+            return Object.assign({}, state, {
+                isFiltering: false,
+                currentPage: PaginationUtil.filterCurrentPage(state)
             })
         }
         default:
