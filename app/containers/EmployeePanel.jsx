@@ -22,13 +22,17 @@ class EmployeePanel extends Component {
         dispatch(fetchEmployees())
     }
 
-    handleNextPageClick() {
+    handleNextPageClick(event) {
+        event.preventDefault()
+
         const { dispatch } = this.props
 
         dispatch(nextPage())
     }
 
-    handlePreviousPageClick() {
+    handlePreviousPageClick(event) {
+        event.preventDefault()
+
         const { dispatch } = this.props
 
         dispatch(prevPage())
@@ -57,7 +61,9 @@ class EmployeePanel extends Component {
                     <div>
                         <div>
                             <EmployeeTable onClick={this.handleSortPageByColumnClick} 
-                                           pagination={pagination} />
+                                           currentPage={pagination.currentPage}
+                                           sortColumn={pagination.sortColumn}
+                                           sortCounter={pagination.sortCounter} />
                         </div>
 
                         <div className="col-12 col-md-6 text-center">
@@ -92,8 +98,8 @@ function mapStateToProps(state) {
     const {
         isFetching,
         isError,
-        payload: payload,
-        error
+        error,
+        payload
     } = fetchEmployees || {
         isFetching: true,
         isError: true,

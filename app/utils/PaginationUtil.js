@@ -43,7 +43,7 @@ export function sortPage(currentPage, column, option) {
         let firstObject = a[column]
         let secondObject = b[column]
 
-        if(!isNaN(stringToDate(firstObject).getDate()) && !isNaN(stringToDate(secondObject).getDate())) {
+        if(firstObject === Number && secondObject === Number && !isNaN(stringToDate(firstObject).getDate()) && !isNaN(stringToDate(secondObject).getDate())) {
             firstObject = stringToDate(firstObject)
             secondObject = stringToDate(secondObject)
         }

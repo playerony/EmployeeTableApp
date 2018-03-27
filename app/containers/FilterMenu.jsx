@@ -22,7 +22,7 @@ class FilterMenu extends Component {
         this.onDateOfBirthChange = this.onDateOfBirthChange.bind(this)
         this.onCompanyChange = this.onCompanyChange.bind(this)
         this.onNoteChange = this.onNoteChange.bind(this)
-        this.reset = this.reset.bind(this)
+        this.resetFilters = this.resetFilters.bind(this)
     }
 
     onSubmit(event) {
@@ -73,7 +73,7 @@ class FilterMenu extends Component {
         dispatch(addNoteFilter(event.target.value))
     }
 
-    reset(event) {
+    resetFilters(event) {
         event.preventDefault()
 
         const { dispatch } = this.props
@@ -86,7 +86,8 @@ class FilterMenu extends Component {
 
         return (
             <div>
-                <h1>Filters:</h1>
+                <br></br>
+                <h2>Filters:</h2>
 
                 <form onSubmit={this.onSubmit} className="form-horizontal">
                     <div className="form-group">
@@ -126,9 +127,9 @@ class FilterMenu extends Component {
 
                     <div className="form-group">        
                         <div className="col-sm-offset-2 col-sm-7">
-                            <input type="submit" value="Filtruj" className="btn btn-success" />
+                            <input type="submit" value="Filter" className="btn btn-success" />
                         </div>
-                        <button className="btn btn-danger col-sm-3" onClick={this.reset}>Reset filters</button>
+                        <button className="btn btn-danger col-sm-3" onClick={this.resetFilters}>Reset filters</button>
                     </div>
                 </form>
             </div>

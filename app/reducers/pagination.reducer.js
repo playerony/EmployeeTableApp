@@ -17,6 +17,9 @@ export function pagination(
     state = {
         filters: [],
         isFiltering: false,
+        isSorting: false,
+        sortColumn: "",
+        sortCounter: 0,
     },
     action
 ) {
@@ -24,40 +27,55 @@ export function pagination(
         case INIT_PAGINATION: {
             let pages = PaginationUtil.divideListIntoPages(action.data, action.pageSize)
             let pageNumber = 1
+
             return Object.assign({}, state, {
                 pageSize: action.pageSize,
                 pageNumber: pageNumber,
                 pages: pages,
-                sortCounter: 0,
                 currentPage: pages[pageNumber - 1]
             })
         }
         case NEXT_PAGE: {
             let pageNumber = state.pageNumber + 1
-            if(pageNumber - 1 < state.pages.length) {
-                return Object.assign({}, state, {
-                    pageNumber: pageNumber,
-                    currentPage: state.pages[pageNumber - 1]
-                })
-            }
+            
+            if(pageNumber > state.pages.length)
+                pageNumber = state.pages.length
+            
+            return Object.assign({}, state, {
+                pageNumber: pageNumber,
+                currentPage: state.pages[pageNumber - 1],
+                isSorting: false,
+                isFiltering: false,
+                filters: [],
+                sortColumn: "",
+                sortCounter: 0
+            })
         }
         case PREV_PAGE: {
-            let pageNumber = state.pageNumber - 1
-            if(pageNumber > 0) {
-                return Object.assign({}, state, {
-                    pageNumber: pageNumber,
-                    currentPage: state.pages[pageNumber - 1]
-                })
-            }
+            let pageNumber = 1
+
+            if(pageNumber > 1)
+                pageNumber = state.pageNumber - 1
+
+            return Object.assign({}, state, {
+                pageNumber: pageNumber,
+                currentPage: state.pages[pageNumber - 1],
+                isSorting: false,
+                isFiltering: false,
+                filters: [],
+                sortColumn: "",
+                sortCounter: 0
+            })
         }
         case SORT: {
             let sortCounter = state.sortCounter + 1
             let pageNumber = state.pageNumber
+
             if(sortCounter >= 3)
                 sortCounter = 0
 
             let currentPage
-            if(state.isFiltering)
+            if(!state.isFiltering)
                 currentPage = PaginationUtil.sortPage(state.pages[pageNumber - 1].slice(), action.column, sortCounter)
             else
                 currentPage = PaginationUtil.sortPage(state.currentPage, action.column, sortCounter)
@@ -66,6 +84,29 @@ export function pagination(
                 sortCounter: sortCounter,
                 sortColumn: action.column,
                 currentPage: currentPage
+            })
+        }
+        case FILTER: {
+            let currentPage = PaginationUtil.filterCurrentPage(state)
+
+            if(state.isSorting)
+                currentPage = PaginationUtil.sortPage(currentPage, state.sortColumn, state.sortCounter)
+
+            return Object.assign({}, state, {
+                isFiltering: true,
+                currentPage
+            })
+        }
+        case RESET_FILTERS: {
+            let currentPage = state.pages[pageNumber - 1].slice()
+
+            if(state.isSorting)
+                currentPage = PaginationUtil.sortPage(currentPage, state.sortColumn, state.sortCounter)
+
+            return Object.assign({}, state, {
+                isFiltering: false,
+                filters: [],
+                currentPage
             })
         }
         case FIRSTNAME_FILTER: {
@@ -111,18 +152,6 @@ export function pagination(
                         value: action.value 
                     })
                 })
-            })
-        }
-        case RESET_FILTERS: 
-            return Object.assign({}, state, {
-                isFiltering: false,
-                filters: [],
-                currentPage: state.pages[state.pageNumber - 1].slice()
-            })
-        case FILTER: {
-            return Object.assign({}, state, {
-                isFiltering: false,
-                currentPage: PaginationUtil.filterCurrentPage(state)
             })
         }
         default:
