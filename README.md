@@ -1,12 +1,13 @@
 # Employee table with pagination, sorting and filtering 
 ## Usage
-Present data in table
+Presents data in table
 ###
 
 ## Installation
 1) Clone repository
 2) npm install
-3) npm test
+3) npm start
+4) In your browser go to localhost:8000
 
 #### Requirements
 - Installed GIT
