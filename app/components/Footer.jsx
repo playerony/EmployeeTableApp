@@ -5,7 +5,7 @@ class Footer extends Component {
         return (
             <div className="footer-copyright py-3 text-center">
                 <h3>&copy; 2018 Copyright: Paweł Wojtasiński</h3>
-                <p>Recruitment task</p>
+                <strong>Recruitment task</strong>
             </div>
         )
     }
