@@ -82,11 +82,8 @@ class FilterMenu extends Component {
     }
 
     render() {
-        const { pagination } = this.props
-
         return (
             <div>
-                <br></br>
                 <h2>Filters:</h2>
 
                 <form onSubmit={this.onSubmit} className="form-horizontal">
@@ -105,7 +102,7 @@ class FilterMenu extends Component {
                     </div>
 
                     <div className="form-group">
-                        <label className="control-label col-sm-2" htmlFor="dateOfBirth">Date of birth:</label>
+                        <label className="control-label col-sm-2" htmlFor="dateOfBirth">Date of birth (minimum):</label>
                         <div className="col-sm-10">
                             <input className="form-control" type="date" onChange={this.onDateOfBirthChange} id="dateOfBirth"/>
                         </div>
@@ -119,7 +116,7 @@ class FilterMenu extends Component {
                     </div>
 
                     <div className="form-group">
-                        <label className="control-label col-sm-2" htmlFor="note">Note:</label>
+                        <label className="control-label col-sm-2" htmlFor="note">Note (minimum):</label>
                         <div className="col-sm-10">
                             <input className="form-control" type="number" onChange={this.onNoteChange} id="note"/>
                         </div>
@@ -136,12 +133,4 @@ class FilterMenu extends Component {
         )
     }
 }
-
-function mapStateToProps(state) {
-    const { pagination } = state
-
-    return {
-        pagination
-    }
-}
-export default connect(mapStateToProps)(FilterMenu)
+export default connect()(FilterMenu)

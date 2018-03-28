@@ -18,19 +18,19 @@ export function divideListIntoPages(data, pageSize) {
 
 export function filterCurrentPage(state) {
     let data = state.pages[state.pageNumber - 1].slice()
-    var filters = state.filters
+    var filters = state.filtering.filters
 
     if(filters.firstName != undefined && filters.firstName.value != null && filters.firstName.value.length > 0)
-        data = data.filter((a) => a.firstName.startsWith(filters.firstName.value))
+        data = data.filter((a) => a.firstName.toString().toLowerCase().startsWith(filters.firstName.value))
 
     if(filters.lastName != undefined && filters.lastName.value != null && filters.lastName.value.length > 0)
-        data = data.filter((a) => a.lastName.startsWith(filters.lastName.value))
+        data = data.filter((a) => a.lastName.toString().toLowerCase().startsWith(filters.lastName.value))
 
     if(filters.dateOfBirth != undefined && filters.dateOfBirth.value != null && filters.dateOfBirth.value.length > 0)
         data = data.filter((a) => stringToDate(a.dateOfBirth) > stringToDate(filters.dateOfBirth.value, false))
 
     if(filters.company != undefined && filters.company.value != null && filters.company.value.length > 0)
-        data = data.filter((a) => a.company.startsWith(filters.company.value))
+        data = data.filter((a) => a.company.toString().toLowerCase().startsWith(filters.company.value))
 
     if(filters.note != undefined && filters.note.value != null && filters.note.value.length > 0)
         data = data.filter((a) => a.note > filters.note.value)
@@ -43,7 +43,9 @@ export function sortPage(currentPage, column, option) {
         let firstObject = a[column]
         let secondObject = b[column]
 
-        if(firstObject === Number && secondObject === Number && !isNaN(stringToDate(firstObject).getDate()) && !isNaN(stringToDate(secondObject).getDate())) {
+        if(!Number.isInteger(firstObject) && !Number.isInteger(secondObject) && 
+           !isNaN(stringToDate(firstObject).getDate()) && !isNaN(stringToDate(secondObject).getDate())) 
+        {
             firstObject = stringToDate(firstObject)
             secondObject = stringToDate(secondObject)
         }

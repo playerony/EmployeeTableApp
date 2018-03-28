@@ -21,11 +21,9 @@ class App extends Component {
                     <div className="container">
                         <NavigationBar />
 
-                        <div>
-                            <Switch>
-                                <Route exact path='/' component={EmployeePanel}/>
-                            </Switch>
-                        </div>
+                        <Switch>
+                            <Route exact path='/' component={EmployeePanel}/>
+                        </Switch>
 
                         <Footer />
                     </div>

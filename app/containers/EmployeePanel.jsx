@@ -62,24 +62,30 @@ class EmployeePanel extends Component {
                         <div>
                             <EmployeeTable onClick={this.handleSortPageByColumnClick} 
                                            currentPage={pagination.currentPage}
-                                           sortColumn={pagination.sortColumn}
-                                           sortCounter={pagination.sortCounter} />
+                                           sortColumn={pagination.sorting.sortColumn}
+                                           sortCounter={pagination.sorting.sortCounter} />
                         </div>
 
-                        <div className="col-12 col-md-6 text-center">
-                            <form>
-                                <button className="btn btn-success" onClick={this.handlePreviousPageClick}>Previous page</button>
-                            </form>
-                        </div>
-                        <div className="col-12 col-md-6 text-center">
-                            <form>
-                                <button className="btn btn-success" onClick={this.handleNextPageClick}>Next page</button>
-                            </form>
-                        </div>
+                        {pagination.pages.length > 1 &&
+                            <div>
+                                <div className="col-12 col-md-6 text-center">
+                                    <form>
+                                        <button className="btn btn-success" onClick={this.handlePreviousPageClick}>Previous page</button>
+                                    </form>
+                                </div>
+                                <div className="col-12 col-md-6 text-center">
+                                    <form>
+                                        <button className="btn btn-success" onClick={this.handleNextPageClick}>Next page</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
                     </div>
                 }
 
-                <FilterMenu />
+                {!isError && !isFetching && payload.length > 0 && 
+                    <FilterMenu />
+                }
             </div>
         )
     }

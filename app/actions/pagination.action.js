@@ -24,7 +24,7 @@ export function prevPage() {
     }
 }
 
-export function initPagination(data, pageSize) {
+export function initPagination(data, pageSize = 5) {
     return {
         type: INIT_PAGINATION,
         data,

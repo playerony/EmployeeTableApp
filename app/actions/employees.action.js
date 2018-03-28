@@ -32,7 +32,7 @@ export function fetchEmployees() {
         employeeService.fetchEmployees()
             .then(json => {
                 dispatch(receiveEmployees(json))
-                dispatch(initPagination(json, 5))
+                dispatch(initPagination(json))
             })
             .catch(function(error) {
                 dispatch(failureEmployees(error))
