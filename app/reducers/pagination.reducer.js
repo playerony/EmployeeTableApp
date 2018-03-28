@@ -107,8 +107,8 @@ export function pagination(
         case FILTER: {
             let currentPage = PaginationUtil.filterCurrentPage(state)
 
-            if(state.isSorting)
-                currentPage = PaginationUtil.sortPage(currentPage, state.sortColumn, state.sortCounter)
+            if(state.sorting.isSorting)
+                currentPage = PaginationUtil.sortPage(currentPage, state.sorting.sortColumn, state.sorting.sortCounter)
 
             return Object.assign({}, state, {
                 filtering: Object.assign({}, state.filtering, {
